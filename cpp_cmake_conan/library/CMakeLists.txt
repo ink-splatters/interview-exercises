@@ -1,1 +1,0 @@
-project(greeting_lib)

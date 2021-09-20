@@ -1,32 +1,29 @@
-# Interview exercises
+# Conan / Cmake Integration Demo
 
-## How to start
-
-> *Note*:
-> In case you don't have a GitHub account, clone the repository, make the changes locally and
-> share the code via mail.
+Forked from https://github.com/tomtom-international/interview-exercises
 
 
-* Fork https://github.com/tomtom-international/interview-exercises.git to your private account
+## **TL;DR**
 
-* Clone the repository
+What works:
+- creating conan package locally, including `export`
+- `catch2` tests are passing
 
-    ```bash
-    git clone https://github.com/<your-gh-account>/interview-exercises.git
-    ```
+What **does not work** yet
+- exporting package to the system (`export-pkg`)
+- test app using `conanfile.txt`
+- `docker` build
 
-* Checkout the exercises branch
 
-    ```bash
-    git checkout cpp_cmake_conan
-    ```
+## Quick Start
+Unix system with c++ toolchain and `Python 3.8+` is required
 
-* Create a branch where you will add your solution, for example:
+```bash
+cd interview-excersises/libgreeting
+./packer.sh dev
+```
 
-    ```bash
-    git checkout -b solution
-    ```
+## [Project Description](TASK.md)
 
-* Do the [tasks](cpp_cmake_conan/README.md)
-* Commit and push your changes
-* Share the fork with us
+## [Building](BUILD.md)
+

@@ -15,14 +15,14 @@ AllowAllConstructorInitializersOnNextLine: true
 AllowAllParametersOfDeclarationOnNextLine: true
 AllowShortBlocksOnASingleLine: Empty
 AllowShortCaseLabelsOnASingleLine: False
-AllowShortFunctionsOnASingleLine: Inline
+AllowShortFunctionsOnASingleLine: InlineOnly
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLambdasOnASingleLine: All
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: false
 AlwaysBreakTemplateDeclarations: Yes
-AttributeMacros: ['__ununsed']
+AttributeMacros: [ '__ununsed' ]
 BreakBeforeBraces: Custom
 BinPackArguments: false
 BinPackParameters: false
@@ -32,16 +32,16 @@ BraceWrapping:
   AfterClass: true
   AfterControlStatement: Never
   AfterEnum: true
-  AfterFunction: true
+  AfterFunction: false
   AfterNamespace: true
   AfterStruct: true
   AfterUnion: true
   AfterExternBlock: false
   BeforeCatch: true
   BeforeElse: true
-  BeforeLambdaBody: false
+  BeforeLambdaBody: true
   BeforeWhile: true
-  IndentBraces: false
+  IndentBraces: true
   SplitEmptyFunction: false
   SplitEmptyRecord: false
 BreakBeforeBinaryOperators: NonAssignment
@@ -53,7 +53,7 @@ ColumnLimit: 120
 CompactNamespaces: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
 ContinuationIndentWidth: 4
-IndentCaseLabels: false
+IndentCaseLabels: true
 IndentExternBlock: NoIndent
 IndentGotoLabels: false
 IndentPPDirectives: None
@@ -85,6 +85,7 @@ SpacesInSquareBrackets: false
 TabWidth: 2
 UseTab: Never
 UseCRLF: false
+FixNamespaceComments: true
 
 #RawStringFormats:
 #  - Language: Proto

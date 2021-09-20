@@ -1,5 +1,6 @@
-class Greeting
-{
+#pragma once
+
+class Greeting {
 public:
-  std::string greet();
+    std::string greet();
 };

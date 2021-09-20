@@ -85,6 +85,7 @@ SpacesInSquareBrackets: false
 TabWidth: 2
 UseTab: Never
 UseCRLF: false
+FixNamespaceComments: true
 
 #RawStringFormats:
 #  - Language: Proto

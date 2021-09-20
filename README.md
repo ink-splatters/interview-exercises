@@ -27,6 +27,6 @@
     git checkout -b solution
     ```
 
-* Do the [tasks](cpp_cmake_conan/README.md)
+* Do the [tasks](TASK.md)
 * Commit and push your changes
 * Share the fork with us

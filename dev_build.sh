@@ -2,10 +2,10 @@
 
 run() {
   echo -e "\e[36m ➤ $*\e[0m"
-  $@
+  "$@"
 }
 
-if ! command -v poetry 2>&1 > /dev/null ; then
+if ! command -v poetry > /dev/null 2>&1  ; then
   echo -e "\e[33mERROR: Python poetry is required. Install using:\e[0m\n"
 
   echo -e " \e[36m1. pipx[recommended]:\e[32m"
@@ -31,7 +31,10 @@ fi
 
 current_dir=
 echo $current_dir
-run poetry install
+if ! command -v conan > /dev/null &2>&1 ; then
+  poetry shell
+
+  poetry install ; fi
 run poetry run conan source $(dirname $0)
 
 #conan source .

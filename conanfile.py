@@ -49,8 +49,6 @@ class Greeting(ConanFile):
         #
         return self._cmake
 
-    def configure(self):
-
 
     def build(self):
         cmake = CMake(self)
@@ -61,7 +59,7 @@ class Greeting(ConanFile):
         cmake.build()
 
     def package(self):
-        self.copy(..., src="src/include", dst="include")
+        self.copy(..., src="libgreeting/src/include", dst="include")
         self.copy("*.lib", dst="lib", keep_path=False)
         self.copy("*.dll", dst="bin", keep_path=False)
         self.copy("*.dylib*", dst="lib", keep_path=False)

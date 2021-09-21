@@ -1,18 +1,23 @@
 [tool.poetry]
-name = "conan-cmake-boilerplate"
+name = "packer"
 version = "0.1.0"
-description = "Boilerplate for conan/cmake integration + testing using Catch2"
+description = "conan packing / building helper"
 authors = ["Peter A. <ink.splatters@pm.me>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.8"
-
-[tool.poetry.dev-dependencies]
+python = "^3.6"
 conan = "^1.40.1"
 ninja = "^1.10.2"
 cmake = "^3.21.2"
+plumbum = "^1.7.0"
+python-box = "^5.4.1"
+
+[tool.poetry.dev-dependencies]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+packer = 'packer.cli:run'

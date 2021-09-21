@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "conan-cmake-boilerplate"
+version = "0.1.0"
+description = "Boilerplate for conan/cmake integration + testing using Catch2"
+authors = ["Peter A. <ink.splatters@pm.me>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.poetry.dev-dependencies]
+conan = "^1.40.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 from conans import ConanFile, CMake
-from conans.errors import ConanInvalidConfiguration
 
-required_conan_version = ">=1.20.0"
+# required_conan_version = ">=1.33.0" # CMakeDeps
 
 
 class Greeting(ConanFile):
@@ -22,7 +21,7 @@ class Greeting(ConanFile):
     exports_sources = ["src/*", "CMakeLists.txt"]
 
     def requirements(self):
-        self.requires("catch2/3.0.0@catchorg/stable")
+        self.requires("catch2/2.13.7")
 
     def configure(self):
         cmake = CMake(self)

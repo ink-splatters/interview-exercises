@@ -23,35 +23,36 @@ class Greeting(ConanFile):
 
     requires = (("catch2/2.13.7", "private"),)
 
-    def _configure_cmake(self):
+    def _configure_and_build(self):
+        if self.settings.os in ("Macos", "iOS", "watchOS", "tvOS"):
+            self.settings.compiler.libcxx="libc++"
+
+        self.settings.compiler.cppstd="gnu17"
+
         cmake = CMake(self, generator="Ninja",
                       make_program="ninja",
-
-                      parallel=True,
                       set_cmake_flags=True)
 
         c2opts = self.options["catch2"]
 
-        if self.options.fPIC:
-            cmake.definitions['CMAKE_POSITION_INDEPENDENT_CODE'] = "ON"
-        c2opts.fPIC = self.options.fPIC
-        c2opts.with_main = True
+        self.options["catch2"].fPIC= self.options.fPIC
+        self.options["catch2"].with_main = True
         cmake.definitions['CATCH_ENABLE_WERROR'] = True
 
+        if self.settings.compiler == 'Visual Studio':
+            del self.options.fPIC
+
         cmake.configure()
+        cmake.build()
+        cmake.test()
 
         return cmake
 
     def build(self):
-        if self.settings.compiler == 'Visual Studio':
-            del self.options.fPIC
-
-        cmake = self._configure_cmake()
-        cmake.configure()
-        cmake.build()
+        self._configure_and_build()
 
     def package(self):
-        cmake = self._configure_cmake()
+        cmake = self._configure_and_build()
         cmake.install()
 
     def package_info(self):

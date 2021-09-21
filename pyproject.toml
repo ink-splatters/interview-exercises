@@ -12,6 +12,7 @@ ninja = "^1.10.2"
 cmake = "^3.21.2"
 plumbum = "^1.7.0"
 python-box = "^5.4.1"
+cytoolz = "^0.11.0"
 
 [tool.poetry.dev-dependencies]
 

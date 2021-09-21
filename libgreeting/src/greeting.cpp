@@ -1,6 +1,12 @@
-#pragma once
+#include "api/greeting.h"
 
-class Greeting {
-public:
-    std::string greet();
-};
+namespace api
+{
+std::string Greeting::greet() const {
+  return "hello from Greeting app!";
+}
+
+std::string greet(const std::string &name) const {
+  return "Hello, " + name + "!";
+}
+}// namespace api

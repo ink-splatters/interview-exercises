@@ -1,4 +1,4 @@
-project(greeting_test)
+project(greeting_tests)
 
 include(CTest)
 include(Catch)

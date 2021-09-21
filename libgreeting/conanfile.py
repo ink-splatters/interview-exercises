@@ -14,37 +14,50 @@ class Greeting(ConanFile):
                   """
 
     default_options = {"shared": False, "fPIC": True}
-    generators = "cmake_multi"
+    generators = "cmake"
     exports_sources = ["src/*", "CMakeLists.txt"]
 
-    settings = {"os": None, "compiler": None, "build_type": None, "arch": None}
+    settings = {"os": None, "build_type": None, "arch": None, "compiler": None }
+
     options = {"shared": [True, False], "fPIC": [True, False]}
     requires = (("catch2/2.13.7", "private"),)
 
-    _cmake: CMake = None
+    _cmake = None
 
-    def _get_cmake(self) -> CMake:
-        if not self._cmake:
-            self._cmake = CMake(self)
+    def _get_or_cfg_cmake(self):
+        if self._cmake:
+            return self._cmake
+        cmake = CMake(self)
+            # , generator="Ninja",
+            #           # make_program="ninja",
+            #           parallel=True,
+            #           set_cmake_flags=True)
+        self._cmake = cmake
+
+        # c2opts = self.options["catch2"]
+        #
+        # cmake.definitions['CMAKE_POSITION_INDEPENDENT_CODE'] = self.options["fPIC"]
+        # c2opts.fPIC = self.options["fPIC"]
+        # c2opts.with_main = True
+        #
+        # cmake.definitions['CATCH_ENABLE_WERROR'] = True
+        #
+        # # Mitigate "clang: warning: include path for libstdc++ headers not found; pass '-stdlib=libc++' on the command line to
+        # # use the libc++ standard library instead [-Wstdlibcxx-not-found]"
+        # if self.settings["os"] in ("Macos", "iOS", "watchOS", "tvOS"):
+        #     self.settings.compiler.libcxx="libc++"
+        #
         return self._cmake
 
     def configure(self):
-        cmake = self._get_cmake()
 
-        c2opts = self.options["catch2"]
-
-        if self.options["fPIC"]:
-            cmake.definitions['CMAKE_POSITION_INDEPENDENT_CODE'] = "ON"
-            c2opts.fPIC = "ON"
-        c2opts.with_main = True
-
-        cmake.definitions['CATCH_ENABLE_WERROR'] = "ON"
-        cmake.configure(build_folder="build")
-
-        return cmake
 
     def build(self):
-        cmake = self._get_cmake()
+        cmake = CMake(self)
+        # self.settings.compiler.cppstd="20"
+        #
+        # cmake = self._get_or_cfg_cmake()
+        cmake.configure()
         cmake.build()
 
     def package(self):
@@ -57,6 +70,6 @@ class Greeting(ConanFile):
 
     def package_info(self):
         # self.cpp_info.
-        self.cpp_info.libs = ["libgreeting"]
+        self.cpp_info.libs = ["catch2", "greeting"]
         self.cpp_info.includedirs = ["include"]
         self.cpp_info.sharedlinkflags = [] if not "fPIC" in self.options else "-fPIC"

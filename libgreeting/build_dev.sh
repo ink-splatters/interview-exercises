@@ -55,10 +55,13 @@ echo "we are in: $(pwd)"
 rm -rf build
 mkdir build && cd build || true
 
+conan profile new --detect --force dev
+conan profile update \
+  env.CXXFLAGS="-fsanitize=address -fno-omit-frame-pointer -Werror -Wextra" dev
 
 conan source -sf src ..
 
-conan install -if . -pr:b default ..
-conan build -sf src -if . ..
+conan install -if . -pr:b dev ..
+conan build -sf src -if .  ..
 
 popd || true

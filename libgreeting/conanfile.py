@@ -1,8 +1,50 @@
 #!/usr/bin/env python
-from conans import ConanFile, CMake
+import conans
+import typing
 
 
-class Greeting(ConanFile):
+class CMake(conans.CMake):
+    def __init__(self, conanfile,
+                 generator="Ninja",
+                 make_program="ninja",
+                 set_cmake_flags=True,
+                 **kw):
+        self.conan = conanfile
+        super().__init__(conanfile,
+                         generator=generator,
+                         make_program=make_program,
+                         set_cmake_flags=set_cmake_flags,
+                         **kw)
+
+    def configure(self, *args, **kw):
+        self._set_cxx_flags()
+        self._set_cmake_export()
+        self._set_catch2_opts()
+        self._set_cmake_export()
+        self._set_libcxx()
+
+        super().configure(*args, **kw)
+
+    def _set_cxx_flags(self):
+        key = "CONAN_CXX_FLAGS"
+        lcxxflags: typing.List[str] = self.definitions.get(key).split() + ["-Werror", "-Wextra"]
+        self.definitions[key] = " ".join(lcxxflags)
+        print(f"lcxx: {lcxxflags}")
+
+    def _set_cmake_export(self):
+        self.definitions["CMAKE_EXPORT_COMPILE_COMMANDS"] = "ON"
+
+    def _set_libcxx(self):
+        if self.conan.settings.os in ("Macos", "iOS", "watchOS", "tvOS"):
+            self.conan.settings.compiler.libcxx = "libc++"
+
+    def _set_catch2_opts(self):
+        self.conan.options["catch2"].fPIC = self.conan.options.fPIC
+        self.conan.options["catch2"].with_main = True
+        self.definitions['CATCH_ENABLE_WERROR'] = True
+
+
+class Greeting(conans.ConanFile):
     name = "greeting"
     version = "0.1.0"
     author = "Peter A. <ink.splatters@pm.me>"
@@ -24,23 +66,7 @@ class Greeting(ConanFile):
     requires = (("catch2/2.13.7", "private"),)
 
     def _configure_and_build(self):
-        if self.settings.os in ("Macos", "iOS", "watchOS", "tvOS"):
-            self.settings.compiler.libcxx="libc++"
-
-        self.settings.compiler.cppstd="gnu17"
-
-        cmake = CMake(self, generator="Ninja",
-                      make_program="ninja",
-                      set_cmake_flags=True)
-
-        c2opts = self.options["catch2"]
-
-        self.options["catch2"].fPIC= self.options.fPIC
-        self.options["catch2"].with_main = True
-        cmake.definitions['CATCH_ENABLE_WERROR'] = True
-
-        if self.settings.compiler == 'Visual Studio':
-            del self.options.fPIC
+        cmake = CMake(self)
 
         cmake.configure()
         cmake.build()

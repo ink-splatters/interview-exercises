@@ -61,7 +61,7 @@ conan profile update \
 
 conan source -sf src ..
 
-conan install -if . -pr:b dev ..
+conan install -if . -pr:b dev --build=catch2 ..
 conan build -sf src -if .  ..
 
 popd || true

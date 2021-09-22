@@ -8,7 +8,7 @@ include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 # https://docs.conan.io/en/latest/integrations/build_system/cmake/cmake_generator.html#targets-approach
 conan_basic_setup(TARGETS)
 
-#message("The v)
+# actually to suppress the warnings...
 message(STATUS "CATCH_ENABLE_WERROR ${CATCH_ENABLE_WERROR}")
 message(STATUS "CMAKE_EXPORT_NO_PACKAGE_REGISTRY ${CMAKE_EXPORT_NO_PACKAGE_REGISTRY}")
 message(STATUS "CMAKE_INSTALL_BINDIR ${CMAKE_INSTALL_BINDIR}")
@@ -21,21 +21,23 @@ message(STATUS "CMAKE_INSTALL_DIR ${CMAKE_INSTALL_DIR}")
 message(STATUS "CONAN_CXX_FLAGS ${CONAN_CXX_FLAGS}")
 message(STATUS "CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS}")
 message(STATUS "CATCH_BUILD_STATIC_LIBRARY ${CATCH_BUILD_STATIC_LIBRARY}")
+message(STATUS "CMAKE_INSTALL_SBINDIR ${CMAKE_INSTALL_SBINDIR}")
 
 add_library(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/src/greeting.cpp
-                            ${CMAKE_CURRENT_SOURCE_DIR}/include/greeting.h
+        include/greeting/greeting.h
         )
 
 ## https://cmake.org/cmake/help/latest/command/target_include_directories.html
 target_include_directories(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include/greeting>  # <prefix>/include/mylib
+        $<INSTALL_INTERFACE:include>  # <prefix>/include/mylib
         ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_compile_options(${PROJECT_NAME} PRIVATE "-Wextra" "-Werror" "$<$<CONFIG:RELEASE>:-O3>")
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
-#set_target_properties(${PROJECT_NAME} PROPERTIES INTERFACE_LINK_LIBRARIES CONAN_PKG::Catch2::Catch2WithMain)
+set_target_properties(${PROJECT_NAME} PROPERTIES INTERFACE_LINK_LIBRARIES CONAN_PKG::catch2)
 
+#target_link_libraries(${PROJECT_NAME} INTERFACE ${CONAN_TARGETS})
 #set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH "$ORIGIN/:$$ORIGIN/../lib/")
 #set_property(TARGET testlib::testlib PROPERTY INTERFACE_LINK_LIBRARIES
 
@@ -49,4 +51,4 @@ enable_testing()
 
 # These tests will use the Catch2-provided main
 add_executable(${PROJECT_NAME}-test ${CMAKE_CURRENT_SOURCE_DIR}/tests/test.cpp)
-target_link_libraries(${PROJECT_NAME}-test PRIVATE ${PROJECT_NAME})
+target_link_libraries(${PROJECT_NAME}-test PUBLIC ${PROJECT_NAME} )

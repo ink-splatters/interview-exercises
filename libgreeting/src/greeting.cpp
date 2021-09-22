@@ -1,6 +1,6 @@
-#include "greeting.h"
+#include "greeting/greeting.h"
 
-namespace 
+namespace greeting
 {
 namespace
 {
@@ -14,4 +14,4 @@ std::string Greeting::greet() const {
 std::string Greeting::greet(const std::string &name) const {
   return HELLO + ", " + name;
 }
-}// namespace 
+}// namespace greeting

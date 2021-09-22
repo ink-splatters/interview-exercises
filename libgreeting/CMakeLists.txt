@@ -37,10 +37,11 @@ target_compile_options(${PROJECT_NAME} PRIVATE "-Wextra" "-Werror" "$<$<CONFIG:R
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 set_target_properties(${PROJECT_NAME} PROPERTIES INTERFACE_LINK_LIBRARIES CONAN_PKG::catch2)
 
+# RPATH magic for *.dylibs to work properly, out of scope for now (might be obsolete already)
+
 #target_link_libraries(${PROJECT_NAME} INTERFACE ${CONAN_TARGETS})
 #set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH "$ORIGIN/:$$ORIGIN/../lib/")
 #set_property(TARGET testlib::testlib PROPERTY INTERFACE_LINK_LIBRARIES
-
 
 install(TARGETS greeting
         PUBLIC_HEADER DESTINATION include
@@ -48,7 +49,9 @@ install(TARGETS greeting
         ARCHIVE DESTINATION lib)
 
 enable_testing()
+include(${CONAN_LIB_DIRS_CATCH2}/cmake/Catch2/Catch.cmake)
 
-# These tests will use the Catch2-provided main
 add_executable(${PROJECT_NAME}-test ${CMAKE_CURRENT_SOURCE_DIR}/tests/test.cpp)
 target_link_libraries(${PROJECT_NAME}-test PUBLIC ${PROJECT_NAME} )
+
+catch_discover_tests(${PROJECT_NAME}-test)

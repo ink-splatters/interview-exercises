@@ -17,19 +17,12 @@ class CMake(conans.CMake):
                          **kw)
 
     def configure(self, *args, **kw):
-        self._set_cxx_flags()
         self._set_cmake_export()
         self._set_catch2_opts()
         self._set_cmake_export()
         self._set_libcxx()
 
         super().configure(*args, **kw)
-
-    def _set_cxx_flags(self):
-        key = "CONAN_CXX_FLAGS"
-        lcxxflags: typing.List[str] = self.definitions.get(key).split() + ["-Werror", "-Wextra"]
-        self.definitions[key] = " ".join(lcxxflags)
-        print(f"lcxx: {lcxxflags}")
 
     def _set_cmake_export(self):
         self.definitions["CMAKE_EXPORT_COMPILE_COMMANDS"] = "ON"
@@ -41,7 +34,7 @@ class CMake(conans.CMake):
     def _set_catch2_opts(self):
         self.conan.options["catch2"].fPIC = self.conan.options.fPIC
         self.conan.options["catch2"].with_main = True
-        self.definitions['CATCH_ENABLE_WERROR'] = True
+        self.definitions['CATCH_ENABLE_WERROR'] = "ON"
 
 
 class Greeting(conans.ConanFile):
@@ -56,14 +49,14 @@ class Greeting(conans.ConanFile):
                   """
 
     generators = "cmake"
-    exports_sources = ["src/**", "CMakeLists.txt"]
+    exports_sources = ["src/**", "tests/**", "include/**", "CMakeLists.txt"]
 
     settings = {"os": None, "build_type": None, "arch": None, "compiler": None}
 
-    options = {"shared": [True, False], "fPIC": [True, False]}
-    default_options = {"shared": False, "fPIC": True}
+    options = {"shared": [True, False], "fPIC": [True, False], "build_type": ["Release", "Debug"]}
+    default_options = {"shared": False, "fPIC": True, "build_type" : "Release"}
 
-    requires = (("catch2/2.13.7", "private"),)
+    requires = "catch2/2.13.7"
 
     def _configure_and_build(self):
         cmake = CMake(self)

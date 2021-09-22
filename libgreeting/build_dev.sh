@@ -43,10 +43,8 @@
 ##conan install . --install-folder=./build
 ##conan build . --build-folder=./build
 
-
 set -v
 script_dir="/Users/inksplatters/dev/interview-exercises/libgreeting"
-
 
 pushd "$script_dir" || true
 
@@ -55,13 +53,42 @@ echo "we are in: $(pwd)"
 rm -rf build
 mkdir build && cd build || true
 
-conan profile new --detect --force dev
-conan profile update \
-  env.CXXFLAGS="-fsanitize=address -fno-omit-frame-pointer -Werror -Wextra" dev
+dev_profile=libgreeting-dev
+release_profile=libgreeting-release
+
+cxxflags="-Werror -Wextra"
+ldflags=""
+
+darwin_libcplusplus() {
+  if [[ $(uname) == "Darwin" ]]; then
+    conan profile update settings.compiler.libcxx="libc++" "$0"
+  fi
+}
+
+create_dev_profile() {
+  conan profile new --detect --force "$dev_profile"
+  if [[ $(uname) == "Darwin" ]]; then
+      conan profile update settings.compiler.libcxx="libc++" "$dev_profile"
+  fi
+
+
+  echo env.CXXFLAGS=\""$cxxflags -fsanitize=address -fno-omit-frame-pointer\"" \
+       env.LDFLAGS=\""$ldflags -fsanitize=address\"" | xargs -n1 -I{} conan profile update "{}" "$dev_profile"
+}
+
+create_release_profile() {
+  conan profile new --detect --force "$release_profile"
+  darwin_libcplusplus "$release_profile"
+
+  conan profile update env.CXXFLAGS="\"$cxxflags\"" "$release_profile"
+  conan profile update env.LDFLAGS="\"$ldflags\"" "$release_profile"
+}
+
+create_dev_profile
+#create_release_profile
 
 conan source -sf src ..
-
-conan install -if . -pr:b dev --build=catch2 ..
-conan build -sf src -if .  ..
+conan install -if . -pr "$dev_profile" --build=missing ..
+conan build -sf src -if . ..
 
 popd || true

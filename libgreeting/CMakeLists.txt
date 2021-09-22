@@ -33,7 +33,12 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         $<INSTALL_INTERFACE:include>  # <prefix>/include/mylib
         ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-target_compile_options(${PROJECT_NAME} PRIVATE "-Wextra" "-Werror" "$<$<CONFIG:RELEASE>:-O3>")
+target_compile_options(${PROJECT_NAME} PUBLIC "-Wextra" "-Werror"
+                                    "$<$<CONFIG:RELEASE>:-O3>"
+                                    "$<$<CONFIG:DEBUG>:-fsanitize=address>"
+                                    "$<$<CONFIG:DEBUG>:-fno-omit-frame-pointer>")
+target_link_options(${PROJECT_NAME} PUBLIC "$<$<CONFIG:DEBUG>:-fsanitize=address>")
+
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 set_target_properties(${PROJECT_NAME} PROPERTIES INTERFACE_LINK_LIBRARIES CONAN_PKG::catch2)
 

@@ -44,7 +44,7 @@ class Greeting(ConanFile):
         self.options["catch2"].fPIC = self.options.fPIC
         self.options["catch2"].with_main = True
 
-        print(f"the os is: {self.settings.os}")
+
         if self.settings.os in ("Macos", "iOS", "watchOS", "tvOS"):
             self.settings.compiler.libcxx = "libc++"
 

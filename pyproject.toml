@@ -6,15 +6,13 @@ authors = ["Peter A. <ink.splatters@pm.me>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.8"
+[tool.poetry.dev-dependencies]
+
 conan = "^1.40.1"
 ninja = "^1.10.2"
 cmake = "^3.21.2"
-plumbum = "^1.7.0"
-python-box = "^5.4.1"
-cytoolz = "^0.11.0"
 
-[tool.poetry.dev-dependencies]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

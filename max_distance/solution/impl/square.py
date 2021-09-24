@@ -1,10 +1,14 @@
 from .. import Solution
 
+import typing
+import beartype
 
-class NxNSolution(Solution):
 
-    @abstrac
-    def solution():
+class Square(Solution):
+    @staticmethod
+    @beartype.beartype
+    def array_solve(A: list[int]) -> int:
+
         N = len(A)
         result = 0
 

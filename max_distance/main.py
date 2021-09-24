@@ -5,10 +5,35 @@ import click
 import typing
 
 from . import log
+from . import solution
+from . import utils
 
 TimeComplexity = typing.Literal['n^2', 'log', 'linear']
+InputGenType = typing.Literal['random', 'equal', 'modulo']
 
 from click_help_colors import *
+
+import click
+import ast
+
+
+# https://stackoverflow.com/questions/47631914/how-to-pass-several-list-of-arguments-to-click-option/47730333
+class PythonLiteralOption(click.Option):
+
+    def type_cast_value(self, ctx, value):
+        try:
+            return ast.literal_eval(value)
+        except:
+            raise click.BadParameter(value)
+
+
+def cb_gen_type(ctx, _, value):
+    print(str(ctx))
+    if not 'gen_size' in ctx.params:
+        raise click.UsageError('--gen-size must be specified')
+
+    return value
+
 
 @click.command(cls=HelpColorsCommand,
                help_headers_color='green',
@@ -18,28 +43,44 @@ from click_help_colors import *
 @click.option('--time',
               type=click.Choice(TimeComplexity.__args__,
                                 case_sensitive=False),
-                                required=True)
-@beartype.beartype
-def solve(time: TimeComplexity):
-    log.info(f'the chosen cmplexity is:{time}')
+              required=True)
+@click.option('--gen-type',
+              type=click.Choice(InputGenType.__args__,
+                                case_sensitive=False), is_eager=True, callback=cb_gen_type, default='linear')
+@click.option('--gen-size', type=int)
+@click.option('--gen-param', type=int)
+@click.option('--input', cls=PythonLiteralOption, default=[])
+@click.pass_context
+# @beartype.beartype
+def solve(ctx, time: TimeComplexity, gen_type: typing.Optional[InputGenType],
+          gen_size: typing.Optional[int],
+          gen_param: typing.Optional[int],
+          input: typing.Optional[list[int]]):
+    """
+    Finds maximum distance between equal array elements
 
-# from click oo
-# from sortedcollections import SortedSet
-#
-# def _solution(A):
-#     N = len(A)
-#     result = 0
-#
-#
-#     for i in range(N):
-#         for j in range(N):
-#             if A[i] == A[j]:
-#                 result = max(result, abs(i - j))
-#     return result
-#
-#
-# from typing import Dict, List
-#
+    TIME specifies expected time complexity: O(n^2), O(log), O(N)
+
+    GEN-TYPE specifies the input data generation strategy
+
+    INPUT: if GEN-TYPE is not set, it's treated as integer array,
+          otherwise it's the length of the generated array
+    Examples:
+
+
+    """
+    log.info(f'the chosen complexity is:{time}')
+    input_str = f'{input}' if not gen_type else f'generated: type={gen_type}; size={gen_size}'
+    log.info(f'the input is: {input_str}')
+
+    input = input if input or utils.gen_input()
+
+    solution.Square
+    switch_gen_type = {
+        'n^2': lambda : solution.Square.solve()
+    }
+
+
 #
 #
 # def solution(A):

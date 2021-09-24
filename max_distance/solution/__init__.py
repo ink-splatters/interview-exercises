@@ -1,15 +1,19 @@
 import abc
-from typing import Iterable, Union, List
-from beartype import beartype
-
+import beartype
+import typing
 
 class Solution(metaclass=abc.ABC):  # or https://zopeinterface.readthedocs.io/en/latest/README.html
     """
     Interface solution classes should implement
     """
 
-    @beartype
     @staticmethod
     @abc.abstractmethod
-    def solve(data: Union[List[int], Iterable[int]]):
+    @beartype.beartype
+    def solve(data: typing.Iterable[int]) -> int:
         pass
+
+
+from .impl.linear import *
+from .impl.square import *
+from .impl.logarithmic import *

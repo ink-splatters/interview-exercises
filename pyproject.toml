@@ -5,13 +5,14 @@ description = "small thingie to calc the max distance between the equal elements
 authors = ["Peter A."]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.9,<3.11"
 python-fire = "^0.1.0"
 beartype = "^0.8.1"
 fire = "^0.4.0"
 click = "^8.0.1"
 mypy = "^0.910"
 click-help-colors = "^0.9.1"
+numpy = "^1.21.2"
 
 [tool.poetry.dev-dependencies]
 
@@ -21,4 +22,4 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.poetry.scripts]
-solve-md = 'max_distance.main:solve'
+solve-md = 'max_distance.main:run'

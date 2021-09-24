@@ -13,4 +13,4 @@ def warning(msg: str):
     click.secho(f'--[warning]: {msg}', fg='green')
 
 def error(msg: str):
-    click.secho(f'--[error]: {msg}', fg='green')
+    click.secho(f'--[error]: {msg}', fg='green', err=True)

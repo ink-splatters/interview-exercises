@@ -8,8 +8,8 @@ authors = ["Peter A."]
 python = ">=3.9,<3.11"
 beartype = "^0.8.1"
 numpy = "^1.21.2"
-plumbum = "^1.7.0"
 python-box = "^5.4.1"
+plumbum = {git = "https://github.com/tomerfiliba/plumbum.git", rev = "master"}
 
 [tool.poetry.dev-dependencies]
 

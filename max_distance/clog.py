@@ -2,6 +2,7 @@ from __future__ import annotations
 import box as b
 import beartype as bt
 import typing as T
+
 T.SupportsInt
 from plumbum.colorlib import ansicolors as _colors, styles
 
@@ -20,20 +21,20 @@ def cprint(style: styles.ANSIStyle, msg: str):
 
 
 def info(input: T.Any):
-    cprint(style.info, f"{str(str(input)}")
+    cprint(style.info, f"{str(input)}")
 
 
-def warn(input: T. Any):
+def warn(input: T.Any):
     cprint(style.warn, f"WARNING: {str(input)}")
 
 
-def error(input: T. Any):
+def error(input: T.Any):
     cprint(style.error, f"ERROR: {str(input)}")
 
 
-def fatal(input: T. Any):
+def fatal(input: T.Any):
     cprint(style.fatal, f"FATAL: {str(input)}")
 
 
-def trace(input: T. Any):
+def trace(input: T.Any):
     cprint(style.trace, f"➤ {str(input)}")

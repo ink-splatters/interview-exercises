@@ -2,13 +2,32 @@ from plumbum import cli
 
 from . import clog
 from . import __version__
+from plumbum.colorlib import ansicolors
+
+from plumbum import colors
+
+colors.use_colors = 4
 
 
 class MaxDistance(cli.Application):
-    """Packs the libgreeting library to conan package"""
+    DESCRIPTION = ansicolors.fg.Green1 | """Finds maximum distance between equal array elements
+    
+    """
 
-    PROGNAME = "maxd"
-    VERSION = __version__
+    PROGNAME = colors.bold & ansicolors.fg.Cyan & "calc-max-distance"
+    VERSION = ansicolors.fg.SteelBlue1A & __version__
+
+    COLOR_USAGE = ansicolors.fg.Green1
+    COLOR_USAGE_TITLE = colors.bold & ansicolors.fg.Green1
+    COLOR_GROUPS = {
+        "Meta-switches": ansicolors.fg.DeepSkyBlue1,
+        "Switches": ansicolors.fg.DarkSlateGray1,
+    }
+    COLOR_GROUP_TITLES = {
+        "Meta-switches": colors.bold & ansicolors.fg.DeepSkyBlue1,
+        "Switches": colors.bold & ansicolors.fg.DarkSlateGray1,
+        # "Subcommands": colors.fg.yellow,
+    }
 
     def main(self):
         # def cprint(*args, **kw):

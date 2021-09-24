@@ -33,7 +33,12 @@ class MaxDistance(cli.Application):
         cg_names,
         map(lambda c: colors.bold & c, cg_colors))
 
-    @cli.autoswitch(help=ansicolors.Green1 & "choose algorithm according to the performance hint")
+    @cli.autoswitch(help=ansicolors.Green1 & \
+                         """ choose algorithm according to the performance hint
+                         0 [default] - max performance: O(N) complexity
+                         1 - logarithmic complexity
+                         2 - N^2 complexity
+                         """, type=int, default=0)
     def perf_hint(self):
         pass
         # """If given, allow running as root"""

@@ -1,8 +1,6 @@
 from plumbum import cli
 
 from . import clog
-from .clog import level as level
-from .clog import trace, info, warning, error
 from . import __version__
 
 
@@ -16,7 +14,11 @@ class MaxDistance(cli.Application):
         # def cprint(*args, **kw):
         # print("⚠")
 
-        print(level.error & "⚠ hi not implemented")
+        clog.trace("hi not implemented")
+        clog.info("hi not implemented")
+        clog.warn("hi not implemented")
+        clog.error("hi not implemented")
+        clog.fatal("hi not implemented")
 
 
 def run():

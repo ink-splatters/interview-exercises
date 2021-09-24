@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-##!/usr/bin/env bash
+#c#!/usr/bin/env bash
 #
 #run() {
 #  echo -e "\e[36m ➤ $*\e[0m"

@@ -7,6 +7,8 @@ from plumbum.colorlib import ansicolors
 from plumbum import colors
 
 colors.use_colors = 4
+acolors = ansicolors.fg
+import functools
 
 
 class MaxDistance(cli.Application):
@@ -19,15 +21,23 @@ class MaxDistance(cli.Application):
 
     COLOR_USAGE = ansicolors.fg.Green1
     COLOR_USAGE_TITLE = colors.bold & ansicolors.fg.Green1
-    COLOR_GROUPS = {
-        "Meta-switches": ansicolors.fg.DeepSkyBlue1,
-        "Switches": ansicolors.fg.DarkSlateGray1,
-    }
-    COLOR_GROUP_TITLES = {
-        "Meta-switches": colors.bold & ansicolors.fg.DeepSkyBlue1,
-        "Switches": colors.bold & ansicolors.fg.DarkSlateGray1,
-        # "Subcommands": colors.fg.yellow,
-    }
+
+    cg_names = ["Meta-switches", "Switches"]
+    cg_colors = [acolors.DeepSkyBlue1, acolors.Green1]
+    COLOR_GROUPS = zip(
+        cg_names,
+        cg_colors
+    )
+
+    COLOR_GROUP_TITLES = zip(
+        cg_names,
+        map(lambda c: colors.bold & c, cg_colors))
+
+    @cli.autoswitch(help=ansicolors.Green1 & "choose algorithm according to the performance hint")
+    def perf_hint(self):
+        pass
+        # """If given, allow running as root"""
+        # self._allow_root = True
 
     def main(self):
         # def cprint(*args, **kw):

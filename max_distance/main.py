@@ -9,11 +9,14 @@ from . import __version__
 class MaxDistance(cli.Application):
     """Packs the libgreeting library to conan package"""
 
-    PROGNAME = "LibGreetingPack"
+    PROGNAME = "maxd"
     VERSION = __version__
 
     def main(self):
-        print(level.error & "hi not implemented")
+        # def cprint(*args, **kw):
+        # print("⚠")
+
+        print(level.error & "⚠ hi not implemented")
 
 
 def run():

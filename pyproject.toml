@@ -10,6 +10,7 @@ beartype = "^0.8.1"
 numpy = "^1.21.2"
 python-box = "^5.4.1"
 plumbum = {git = "https://github.com/tomerfiliba/plumbum.git", rev = "master"}
+multimethod = "^1.6"
 
 [tool.poetry.dev-dependencies]
 

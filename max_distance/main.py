@@ -2,28 +2,32 @@ from plumbum import cli
 
 from . import clog
 from . import __version__
-from plumbum.colorlib import ansicolors
+from plumbum.colorlib import ansicolors as AC
 
-from plumbum import colors
+import plumbum.colors as C
 
-colors.use_colors = 4
-acolors = ansicolors.fg
+C.use_colors = True
 import functools
 
 
 class MaxDistance(cli.Application):
-    DESCRIPTION = ansicolors.fg.Green1 | """Finds maximum distance between equal array elements
+    DESCRIPTION = AC.fg.Green1 | """Finds maximum distance between equal array elements
     
+    The note about performance hint:
+    
+        0: maximum performance, O(N) [default]
+        1: logarithmic performance
+        2: O(N^2) performance
     """
 
-    PROGNAME = colors.bold & ansicolors.fg.Cyan & "calc-max-distance"
-    VERSION = ansicolors.fg.SteelBlue1A & __version__
+    PROGNAME = C.bold & AC.fg.Cyan & "calc-max-distance"
+    VERSION = AC.fg.SteelBlue1A & __version__
 
-    COLOR_USAGE = ansicolors.fg.Green1
-    COLOR_USAGE_TITLE = colors.bold & ansicolors.fg.Green1
+    COLOR_USAGE = AC.fg.Green1
+    COLOR_USAGE_TITLE = C.bold & AC.fg.Green1
 
     cg_names = ["Meta-switches", "Switches"]
-    cg_colors = [acolors.DeepSkyBlue1, acolors.Green1]
+    cg_colors = [AC.DeepSkyBlue1, AC.Green1]
     COLOR_GROUPS = zip(
         cg_names,
         cg_colors
@@ -31,17 +35,16 @@ class MaxDistance(cli.Application):
 
     COLOR_GROUP_TITLES = zip(
         cg_names,
-        map(lambda c: colors.bold & c, cg_colors))
+        map(lambda c: C.bold & c, cg_colors))
 
-    @cli.autoswitch(help=ansicolors.Green1 & \
-                         """ choose algorithm according to the performance hint
-                         0 [default] - max performance: O(N) complexity
-                         1 - logarithmic complexity
-                         2 - N^2 complexity
-                         """, type=int, default=0)
+    def __init__(self, executable):
+        super().__init__(executable)
+        self.unbind_switches('--help-all')
+
+    @cli.switch(['-p', '--perf-hint'], argtype=int, mandatory=True, help="1\r2\r3\r")
     def perf_hint(self):
-        pass
-        # """If given, allow running as root"""
+        """performance hint to chose the calculation algorithm"""
+        # """
         # self._allow_root = True
 
     def main(self):

@@ -14,6 +14,14 @@ test-tox = ["typing-extensions", "mypy (>=0.800)", "numpy", "pytest (>=4.0.0)"]
 test-tox-coverage = ["coverage (>=5.5)"]
 
 [[package]]
+name = "multimethod"
+version = "1.6"
+description = "Multiple argument dispatching."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[[package]]
 name = "numpy"
 version = "1.21.2"
 description = "NumPy is the fundamental package for array computing with Python."
@@ -82,12 +90,16 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9,<3.11"
-content-hash = "5fce3bfd6aaa3f11b45d2fe906d8bdcac89adbca0967a0139b8676650e8844c7"
+content-hash = "1b678abcaa1862ec8af291d85710e0a440c8a1e0e09845e9a1e0623d580e14b7"
 
 [metadata.files]
 beartype = [
     {file = "beartype-0.8.1-py3-none-any.whl", hash = "sha256:e3142ee03d7ef6f2bcfff079f2bb4d42f70303fdbd2d98ca99f36387e153fca7"},
     {file = "beartype-0.8.1.tar.gz", hash = "sha256:c2a2bac961cae7f022d88b892c0d23e91314915aea3e01f316880b4fb00d7d2c"},
+]
+multimethod = [
+    {file = "multimethod-1.6-py3-none-any.whl", hash = "sha256:24cf77b560266869d489c150d36d9242d66d4adc360df4548d09ee976c735d1e"},
+    {file = "multimethod-1.6.tar.gz", hash = "sha256:ed78cd3237c59652b226d571209d934860b99240c62935a706a9b3d0bce6ebb3"},
 ]
 numpy = [
     {file = "numpy-1.21.2-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:52a664323273c08f3b473548bf87c8145b7513afd63e4ebba8496ecd3853df13"},

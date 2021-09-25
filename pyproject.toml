@@ -20,4 +20,4 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.poetry.scripts]
-maxd = 'max_distance.main:run'
+mxd = 'max_distance.main:run'

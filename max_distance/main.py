@@ -1,24 +1,33 @@
 from plumbum import cli
 
-from . import clog
-from . import __version__
+from . import clog, solution, __version__
+from .perf_hint import *
 from plumbum.colorlib import ansicolors as AC
 
 import plumbum.colors as C
+import typing as T
 
 C.use_colors = True
-import functools
+O = T.Optional
 
 
 class MaxDistance(cli.Application):
-    DESCRIPTION = AC.fg.Green1 | """Finds maximum distance between equal array elements
-    
-    The note about performance hint:
-    
-        0: maximum performance, O(N) [default]
-        1: logarithmic performance
-        2: O(N^2) performance
-    """
+    DESCRIPTION =  AC.fg.Green1 & """Finds maximum distance between equal array elements"""
+    #
+    # The note about -p, --perf-hint:
+    #     the value is used to choose an algorithm of the corresponding complexity:
+    #
+    #     {}
+    #     """.format(
+    #     f'{AC.fg.DeepSkyBlue1 & C.bold & "max|linear: "}{AC.fg.DeepSkyBlue1 & "maximum performance"}',
+    #     # y='{AC.fg.DeepSkyBlue1 & C.bold & "max|linear: "}{AC.fg.DeepSkyBlue1 & "maximum performance}',
+    #     # z='{AC.fg.DeepSkyBlue1 & C.bold & "max|linear: "}{AC.fg.DeepSkyBlue1 & "maximum performance}'
+    # )
+
+    # maximum performance [default]
+    #     log: logarithmic performance
+    #     n^2|nxn: O(N^2) performance
+    # """
 
     PROGNAME = C.bold & AC.fg.Cyan & "calc-max-distance"
     VERSION = AC.fg.SteelBlue1A & __version__
@@ -37,25 +46,30 @@ class MaxDistance(cli.Application):
         cg_names,
         map(lambda c: C.bold & c, cg_colors))
 
+
+    perf_hint=to_name(solution.Linear)
+
     def __init__(self, executable):
         super().__init__(executable)
         self.unbind_switches('--help-all')
 
-    @cli.switch(['-p', '--perf-hint'], argtype=int, mandatory=True, help="1\r2\r3\r")
-    def perf_hint(self):
-        """performance hint to chose the calculation algorithm"""
-        # """
-        # self._allow_root = True
+    @cli.switch(['-p', '--perf-hint'], help="one of", argtype=str)
+    def switch_perf_hint(self, hint):
+        self.perf_hint = hint
+
 
     def main(self):
+
+
+        print(to_name(hint=self.perf_hint))
+        # clog.info(f'expecting {perf_names[self.perf_hint]} performance')
         # def cprint(*args, **kw):
         # print("⚠")
 
-        clog.trace("hi not implemented")
-        clog.info("hi not implemented")
-        clog.warn("hi not implemented")
-        clog.error("hi not implemented")
-        clog.fatal("hi not implemented")
+
+        # clog.warn("hi not implemented")
+        # clog.error("hi not implemented")
+        # clog.fatal("hi not implemented")
 
 
 def run():

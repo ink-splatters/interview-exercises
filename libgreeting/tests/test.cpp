@@ -3,7 +3,7 @@
 #include <catch2/catch.hpp>
 #include <greeting/greeting.h>
 
-SCENARIO("anonymous users must be properly greeted", "[greeting]") {
+SCENARIO( "anonymous users must be properly greeted", "[anonymus greeting]" ) {
   greeting::Greeting g;
 
   GIVEN("an anonymous user") {
@@ -16,7 +16,10 @@ SCENARIO("anonymous users must be properly greeted", "[greeting]") {
     }
   }
 }
-SCENARIO("named users must be properly greeted", "[greeting]") {
+
+SCENARIO( "named users must be properly greeted", "[named greeting]" ) {
+  greeting::Greeting g;
+
   GIVEN("a named user") {
     WHEN("greeting::Greeting::greet(const string&)const overload is called") {
       auto the_greeting = g.greet("John Doe");
@@ -24,6 +27,11 @@ SCENARIO("named users must be properly greeted", "[greeting]") {
       THEN("greeting should be") {
         REQUIRE(the_greeting == "Hello from libgreeting, John Doe!");
       }
+    
+      THEN("greeting should be") { 
+        REQUIRE(the_greeting == "Hello from libgreeting, John Doe!"); 
+      }
     }
   }
 }
+

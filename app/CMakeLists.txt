@@ -9,5 +9,5 @@ endif()
 
 include(${CMAKE_BINARY_DIR}/conan.cmake)
 
-conan_cmake_run(REQUIRES Catch2/2.6.0@catchorg/stable
-        BASIC_SETUP)
+#conan_cmake_run(REQUIRES Catch2/2.6.0@catchorg/stable
+#        BASIC_SETUP)
